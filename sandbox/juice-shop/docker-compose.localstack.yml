@@ -1,0 +1,48 @@
+################################################################
+# LocalStack — emulates AWS APIs (EC2, ECS, ELB, IAM, Logs, …)
+# on a single edge port (4566). Free tier covers everything the
+# Terraform stack uses except the actual *running* Fargate task,
+# which we run as a sibling container against the same network
+# so it's reachable from `host.docker.internal:3000`.
+################################################################
+
+services:
+  localstack:
+    image: localstack/localstack:3.8
+    container_name: tgs-localstack
+    ports:
+      - "4566:4566"           # edge port
+      - "4510-4559:4510-4559" # service ports range
+    environment:
+      - SERVICES=ec2,ecs,ecr,elbv2,iam,logs,cloudwatch,sts,secretsmanager,ssm
+      - DEBUG=0
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - LAMBDA_EXECUTOR=docker
+      - LS_LOG=warn
+    volumes:
+      - "./.localstack:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - tgs-juice
+
+  ###############################################################
+  # Juice Shop runs as a sibling container so it's actually
+  # reachable for HTTP pentesting. The Terraform/LocalStack
+  # ECS resources model the AWS control plane, while this
+  # container models the *running data plane*.
+  ###############################################################
+  juice-shop:
+    image: bkimminich/juice-shop:v17.3.0
+    container_name: tgs-juice-shop
+    environment:
+      - NODE_ENV=unsafe
+    ports:
+      - "3000:3000"
+    networks:
+      - tgs-juice
+    restart: unless-stopped
+
+networks:
+  tgs-juice:
+    name: tgs-juice
+    driver: bridge

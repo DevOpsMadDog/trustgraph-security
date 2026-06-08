@@ -1,0 +1,146 @@
+# ──────────────────────────────────────────────────────────────
+# TrustGraph Security — production stack
+#   docker compose -f infra/compose/docker-compose.yml up -d --build
+# ──────────────────────────────────────────────────────────────
+name: trustgraph-security
+
+x-default-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+networks:
+  tgs-net:
+    driver: bridge
+
+volumes:
+  cassandra-data:
+  qdrant-data:
+  pulsar-data:
+  garage-data:
+  redis-data:
+
+services:
+  # ─── trustgraph-ai: graph store + RAG flows ────────────────
+  pulsar:
+    image: apachepulsar/pulsar:3.2.4
+    command: bin/pulsar standalone --no-functions-worker --no-stream-storage
+    ports: ["6650:6650", "8081:8080"]
+    volumes: ["pulsar-data:/pulsar/data"]
+    healthcheck:
+      test: ["CMD", "bin/pulsar-admin", "brokers", "healthcheck"]
+      interval: 15s
+      timeout: 5s
+      retries: 12
+    logging: *default-logging
+    networks: [tgs-net]
+
+  cassandra:
+    image: cassandra:5.0.2
+    environment:
+      - CASSANDRA_CLUSTER_NAME=trustgraph
+      - HEAP_NEWSIZE=128M
+      - MAX_HEAP_SIZE=1024M
+    volumes: ["cassandra-data:/var/lib/cassandra"]
+    healthcheck:
+      test: ["CMD-SHELL", "nodetool status | grep -E '^UN'"]
+      interval: 20s
+      timeout: 10s
+      retries: 30
+    logging: *default-logging
+    networks: [tgs-net]
+
+  qdrant:
+    image: qdrant/qdrant:v1.12.5
+    ports: ["6333:6333"]
+    volumes: ["qdrant-data:/qdrant/storage"]
+    logging: *default-logging
+    networks: [tgs-net]
+
+  trustgraph:
+    image: trustgraph/trustgraph-flow:latest
+    depends_on:
+      pulsar: {condition: service_healthy}
+      cassandra: {condition: service_healthy}
+      qdrant: {condition: service_started}
+    environment:
+      - PULSAR_URL=pulsar://pulsar:6650
+      - PULSAR_ADMIN_URL=http://pulsar:8080
+      - CASSANDRA_HOST=cassandra
+      - QDRANT_URL=http://qdrant:6333
+      - GATEWAY_SECRET=${TG_API_KEY}
+    ports: ["8088:8088"]
+    logging: *default-logging
+    networks: [tgs-net]
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8088/api/v1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 60s
+
+  # ─── infra ───────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    volumes: ["redis-data:/data"]
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    logging: *default-logging
+    networks: [tgs-net]
+
+  # ─── tg-api: FastAPI control plane ────────────────────────
+  tg-api:
+    build:
+      context: ../../apps/api
+      dockerfile: Dockerfile
+    depends_on:
+      redis: {condition: service_healthy}
+      trustgraph: {condition: service_healthy}
+    env_file: ../../.env
+    environment:
+      - TG_API_URL=http://trustgraph:8088
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    ports: ["8000:8000"]
+    logging: *default-logging
+    networks: [tgs-net]
+    restart: unless-stopped
+
+  # ─── tg-worker: scanner + pentest runners ─────────────────
+  tg-worker:
+    build:
+      context: ../../apps/worker
+      dockerfile: Dockerfile
+    depends_on:
+      redis: {condition: service_healthy}
+      tg-api: {condition: service_started}
+    env_file: ../../.env
+    environment:
+      - TG_API_INTERNAL_URL=http://tg-api:8000
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    volumes:
+      - ${FEED_LOCAL_PATH:-./feeds}:/data/feeds:ro
+    logging: *default-logging
+    networks: [tgs-net]
+    restart: unless-stopped
+    deploy:
+      replicas: 2
+
+  # ─── tg-ui: React frontend ────────────────────────────────
+  tg-ui:
+    build:
+      context: ../../apps/ui
+      dockerfile: Dockerfile
+    depends_on:
+      tg-api: {condition: service_started}
+    ports: ["8080:8080"]
+    logging: *default-logging
+    networks: [tgs-net]
+    restart: unless-stopped

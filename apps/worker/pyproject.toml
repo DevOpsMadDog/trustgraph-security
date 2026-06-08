@@ -1,0 +1,18 @@
+[project]
+name = "trustgraph-worker"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "celery[redis]==5.4.0",
+  "redis==5.2.1",
+  "httpx==0.28.1",
+  "pydantic==2.10.3",
+  "pydantic-settings==2.7.0",
+  "structlog==24.4.0",
+  "GitPython==3.1.43",
+]
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+[tool.setuptools]
+packages = ["trustgraph_worker"]

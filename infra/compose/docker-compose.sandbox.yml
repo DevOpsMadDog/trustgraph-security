@@ -1,0 +1,91 @@
+# ──────────────────────────────────────────────────────────────
+# TrustGraph Security — HACKATHON SANDBOX overlay
+# Compose with the base file:
+#   docker compose \
+#     -f infra/compose/docker-compose.yml \
+#     -f infra/compose/docker-compose.sandbox.yml \
+#     up -d --build
+# OR just run `make hackathon`.
+#
+# What this overlay does:
+#   1. Adds tg-demo-target — a deliberately vulnerable mini payments app
+#      so the AI pentest agent has a real, in-network target.
+#   2. Adds zap — OWASP ZAP baseline scanner as a side-container.
+#   3. Lowers Cassandra/Pulsar heap so the stack fits on a laptop.
+#   4. Forces known demo credentials so participants can log in fast.
+#   5. Puts the demo target on its own bridge network — it is NOT
+#      reachable from the host except via the tg-api/UI.
+# ──────────────────────────────────────────────────────────────
+name: trustgraph-security
+
+networks:
+  tgs-sandbox:
+    driver: bridge
+    internal: false
+  tgs-target-only:
+    driver: bridge
+    internal: true       # demo target unreachable from host
+
+services:
+
+  # ─── deliberately vulnerable demo target ────────────────────
+  tg-demo-target:
+    build:
+      context: ../../apps/demo_target
+      dockerfile: Dockerfile
+    container_name: tg-demo-target
+    networks: [tgs-net, tgs-target-only]
+    # No host port — only reachable from tg-worker / tg-api inside the network.
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys;sys.exit(0 if urllib.request.urlopen('http://localhost:9000/').status==200 else 1)"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # ─── OWASP ZAP baseline scanner (side container) ───────────
+  zap:
+    image: zaproxy/zap-stable:2.16.0
+    container_name: tg-zap
+    user: zap
+    command: ["zap.sh", "-daemon", "-host", "0.0.0.0", "-port", "8090",
+              "-config", "api.disablekey=true",
+              "-config", "api.addrs.addr.name=.*",
+              "-config", "api.addrs.addr.regex=true"]
+    networks: [tgs-net]
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8090"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+
+  # ─── lighter trustgraph stack overrides ─────────────────────
+  cassandra:
+    environment:
+      - HEAP_NEWSIZE=64M
+      - MAX_HEAP_SIZE=512M
+
+  pulsar:
+    command: bin/pulsar standalone --no-functions-worker --no-stream-storage
+    environment:
+      - PULSAR_MEM=-Xms256m -Xmx512m
+
+  # ─── tg-api — demo credentials + sandbox-friendly defaults ─
+  tg-api:
+    environment:
+      - JWT_SECRET=sandbox-demo-secret-change-in-prod
+      - ADMIN_EMAIL=demo@trustgraph.local
+      - ADMIN_PASSWORD=demo
+      - TG_DEMO_TARGET_BASE=http://tg-demo-target:9000
+      - TG_ZAP_BASE=http://zap:8090
+
+  # ─── tg-worker — same target env so scanners and CAI agent
+  #     know where the in-network victim lives ────────────────
+  tg-worker:
+    environment:
+      - TG_DEMO_TARGET_BASE=http://tg-demo-target:9000
+      - TG_ZAP_BASE=http://zap:8090
+      # Faster CAI runs for live demos
+      - CAI_MAX_TURNS=15
+      - CAI_TIMEOUT_SEC=180
+    depends_on:
+      tg-demo-target: {condition: service_healthy}

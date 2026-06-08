@@ -1,0 +1,923 @@
+{
+  "ontology": {
+    "namespace": "https://trustgraph.security/ontology#"
+  },
+  "nodes": [
+    {
+      "id": "https://trustgraph.security/entity/system-juice-shop_juice-shop",
+      "type": "https://trustgraph.security/ontology#System",
+      "props": {
+        "name": "juice-shop/juice-shop",
+        "description": "OWASP Juice Shop: Probably the most modern and sophisticated insecure web application",
+        "url": "https://github.com/juice-shop/juice-shop"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "type": "https://trustgraph.security/ontology#Service",
+      "props": {
+        "name": "juice-shop",
+        "language": "TypeScript",
+        "exposed_to_internet": true
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-0",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/file-upload",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-1",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/profile/image/file",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-2",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/profile/image/url",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-3",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/rest/memories",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-4",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/Users",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-5",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/Products",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-6",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "PUT",
+        "path": "/api/Products/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-7",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "DELETE",
+        "path": "/api/Products/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-8",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/Challenges",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-9",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/Hints",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-10",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/Complaints",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-11",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/Complaints",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-12",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/Recycles",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-13",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/Recycles",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-14",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/Recycles/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-15",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "PUT",
+        "path": "/api/Recycles/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-16",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "DELETE",
+        "path": "/api/Recycles/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-17",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/SecurityQuestions",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-18",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/SecurityAnswers",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-19",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/Feedbacks",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-20",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/Users",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-21",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "PUT",
+        "path": "/api/BasketItems/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-22",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/BasketItems",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-23",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "DELETE",
+        "path": "/api/Quantitys/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-24",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/Quantitys",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-25",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "PUT",
+        "path": "/api/Feedbacks/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-26",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/Cards",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-27",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/Cards",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-28",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "PUT",
+        "path": "/api/Cards/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-29",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "DELETE",
+        "path": "/api/Cards/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-30",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/Cards/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-31",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/PrivacyRequests",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-32",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/PrivacyRequests",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-33",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/api/Addresss",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-34",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/Addresss",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-35",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "PUT",
+        "path": "/api/Addresss/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-36",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "DELETE",
+        "path": "/api/Addresss/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-37",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/Addresss/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-38",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/Deliverys",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-39",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/api/Deliverys/:id",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-40",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/rest/2fa/verify",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-41",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/rest/2fa/status",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-42",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/rest/2fa/setup",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-43",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/rest/2fa/disable",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-44",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/rest/user/login",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-45",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/rest/user/change-password",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-46",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "POST",
+        "path": "/rest/user/reset-password",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-47",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/rest/user/security-question",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-48",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/rest/user/whoami",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-49",
+      "type": "https://trustgraph.security/ontology#Endpoint",
+      "props": {
+        "method": "GET",
+        "path": "/rest/user/authentication-details",
+        "defined_in": "server.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-0",
+      "type": "https://trustgraph.security/ontology#Commit",
+      "props": {
+        "sha": "160f3062d6d7",
+        "message": "Add optimizer workflow to compress images",
+        "author": "Bjoern Kimminich"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-1",
+      "type": "https://trustgraph.security/ontology#Commit",
+      "props": {
+        "sha": "6244c59a47ba",
+        "message": "Add new references and solutions",
+        "author": "Bj\u00f6rn Kimminich"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-2",
+      "type": "https://trustgraph.security/ontology#Commit",
+      "props": {
+        "sha": "07b0c1963879",
+        "message": "Merge remote-tracking branch 'origin/master'",
+        "author": "Bjoern Kimminich"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-3",
+      "type": "https://trustgraph.security/ontology#Commit",
+      "props": {
+        "sha": "e4e984e8f71c",
+        "message": "Add references to v20 blog and CVE-Lite case study",
+        "author": "Bjoern Kimminich"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-4",
+      "type": "https://trustgraph.security/ontology#Commit",
+      "props": {
+        "sha": "53a4c42ce483",
+        "message": "\ud83d\udcf8 Update bundle analysis screenshot\n\nSigned-off-by: GitHub Action <action@github.com>",
+        "author": "GitHub Action"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-5",
+      "type": "https://trustgraph.security/ontology#Commit",
+      "props": {
+        "sha": "f356a09207c7",
+        "message": "Merge pull request #3404 from juice-shop/l10n_develop\n\nNew Crowdin updates",
+        "author": "Bj\u00f6rn Kimminich"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-6",
+      "type": "https://trustgraph.security/ontology#Commit",
+      "props": {
+        "sha": "e0a08b7634c8",
+        "message": "New translations en.json (German, Switzerland)\n\n[ci skip]\n[ci skip]\nSigned-off-by: Bj\u00f6rn Kimminich <bjoern.kimminich@gmx.de>",
+        "author": "Bj\u00f6rn Kimminich"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-7",
+      "type": "https://trustgraph.security/ontology#Commit",
+      "props": {
+        "sha": "d9180182d459",
+        "message": "New translations en.json (Sinhala)\n\n[ci skip]\n[ci skip]\nSigned-off-by: Bj\u00f6rn Kimminich <bjoern.kimminich@gmx.de>",
+        "author": "Bj\u00f6rn Kimminich"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-8",
+      "type": "https://trustgraph.security/ontology#Commit",
+      "props": {
+        "sha": "325241cdd3e9",
+        "message": "New translations en.json (Chinese Traditional, Hong Kong)\n\n[ci skip]\n[ci skip]\nSigned-off-by: Bj\u00f6rn Kimminich <bjoern.kimminich@gmx.de>",
+        "author": "Bj\u00f6rn Kimminich"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-9",
+      "type": "https://trustgraph.security/ontology#Commit",
+      "props": {
+        "sha": "57f687091e54",
+        "message": "New translations en.json (Klingon)\n\n[ci skip]\n[ci skip]\nSigned-off-by: Bj\u00f6rn Kimminich <bjoern.kimminich@gmx.de>",
+        "author": "Bj\u00f6rn Kimminich"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/finding-secret-juice-shop_juice-shop-0",
+      "type": "https://trustgraph.security/ontology#Finding",
+      "props": {
+        "title": "Possible generic_secret in routes/login.ts",
+        "severity": "high",
+        "source": "prototype-secret-scan",
+        "file": "routes/login.ts"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/finding-dep-juice-shop_juice-shop-express",
+      "type": "https://trustgraph.security/ontology#Finding",
+      "props": {
+        "title": "Risky dependency: express",
+        "severity": "medium",
+        "source": "prototype-dep-scan",
+        "note": "Check version for CVE-2024-29041"
+      }
+    },
+    {
+      "id": "https://trustgraph.security/entity/finding-docker-juice-shop_juice-shop-runs_as_root",
+      "type": "https://trustgraph.security/ontology#Finding",
+      "props": {
+        "title": "Dockerfile issue: runs_as_root",
+        "severity": "medium",
+        "source": "prototype-docker-scan"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "s": "https://trustgraph.security/entity/system-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#contains",
+      "o": "https://trustgraph.security/entity/service-juice-shop_juice-shop"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-0"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-1"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-2"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-3"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-4"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-5"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-6"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-7"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-8"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-9"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-10"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-11"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-12"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-13"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-14"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-15"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-16"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-17"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-18"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-19"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-20"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-21"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-22"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-23"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-24"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-25"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-26"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-27"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-28"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-29"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-30"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-31"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-32"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-33"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-34"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-35"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-36"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-37"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-38"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-39"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-40"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-41"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-42"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-43"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-44"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-45"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-46"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-47"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-48"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#exposes",
+      "o": "https://trustgraph.security/entity/endpoint-juice-shop_juice-shop-49"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#changed_by",
+      "o": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-0"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#changed_by",
+      "o": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-1"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#changed_by",
+      "o": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-2"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#changed_by",
+      "o": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-3"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#changed_by",
+      "o": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-4"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#changed_by",
+      "o": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-5"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#changed_by",
+      "o": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-6"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#changed_by",
+      "o": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-7"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#changed_by",
+      "o": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-8"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#changed_by",
+      "o": "https://trustgraph.security/entity/commit-juice-shop_juice-shop-9"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#evidenced_by",
+      "o": "https://trustgraph.security/entity/finding-secret-juice-shop_juice-shop-0"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#evidenced_by",
+      "o": "https://trustgraph.security/entity/finding-dep-juice-shop_juice-shop-express"
+    },
+    {
+      "s": "https://trustgraph.security/entity/service-juice-shop_juice-shop",
+      "p": "https://trustgraph.security/ontology#evidenced_by",
+      "o": "https://trustgraph.security/entity/finding-docker-juice-shop_juice-shop-runs_as_root"
+    }
+  ],
+  "stats": {
+    "endpoints": 102,
+    "commits": 30,
+    "findings": 3,
+    "risky_deps": 1,
+    "secrets": 1
+  }
+}

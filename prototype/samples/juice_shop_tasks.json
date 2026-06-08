@@ -1,0 +1,240 @@
+[
+  {
+    "task_id": "thr-secrets-in-repo::juice-shop/juice-shop",
+    "threat_id": "thr-secrets-in-repo",
+    "title": "Hard-coded credentials in repo",
+    "stride": "I",
+    "severity": "critical",
+    "target": {
+      "repo": "juice-shop/juice-shop"
+    },
+    "objective": "Confirm and remediate: Hard-coded credentials in repo in juice-shop/juice-shop.",
+    "suggested_tools": [
+      "gitleaks",
+      "trufflehog"
+    ],
+    "signals": {
+      "severity": 1.0,
+      "exposure": 0.9,
+      "exploitability": 1.0,
+      "control_gap": 1.0,
+      "churn": 1.0,
+      "runtime_alerts": 0.0,
+      "total": 0.93
+    },
+    "priority": 0.93
+  },
+  {
+    "task_id": "thr-upload::POST:/file-upload",
+    "threat_id": "thr-upload",
+    "title": "Unrestricted file upload",
+    "stride": "T",
+    "severity": "high",
+    "target": {
+      "repo": "juice-shop/juice-shop",
+      "endpoint": "POST /file-upload",
+      "defined_in": "server.ts"
+    },
+    "objective": "Verify whether unrestricted file upload is exploitable against POST /file-upload in repo juice-shop/juice-shop. Produce a minimal reproducer and a one-line fix.",
+    "suggested_tools": [
+      "curl",
+      "ffuf"
+    ],
+    "signals": {
+      "severity": 0.8,
+      "exposure": 0.9,
+      "exploitability": 1.0,
+      "control_gap": 1.0,
+      "churn": 1.0,
+      "runtime_alerts": 0.0,
+      "total": 0.87
+    },
+    "priority": 0.87
+  },
+  {
+    "task_id": "thr-upload::POST:/profile/image/file",
+    "threat_id": "thr-upload",
+    "title": "Unrestricted file upload",
+    "stride": "T",
+    "severity": "high",
+    "target": {
+      "repo": "juice-shop/juice-shop",
+      "endpoint": "POST /profile/image/file",
+      "defined_in": "server.ts"
+    },
+    "objective": "Verify whether unrestricted file upload is exploitable against POST /profile/image/file in repo juice-shop/juice-shop. Produce a minimal reproducer and a one-line fix.",
+    "suggested_tools": [
+      "curl",
+      "ffuf"
+    ],
+    "signals": {
+      "severity": 0.8,
+      "exposure": 0.9,
+      "exploitability": 1.0,
+      "control_gap": 1.0,
+      "churn": 1.0,
+      "runtime_alerts": 0.0,
+      "total": 0.87
+    },
+    "priority": 0.87
+  },
+  {
+    "task_id": "thr-bruteforce::POST:/rest/user/login",
+    "threat_id": "thr-bruteforce",
+    "title": "Login endpoint lacks visible rate limiting",
+    "stride": "S",
+    "severity": "high",
+    "target": {
+      "repo": "juice-shop/juice-shop",
+      "endpoint": "POST /rest/user/login",
+      "defined_in": "server.ts"
+    },
+    "objective": "Verify whether login endpoint lacks visible rate limiting is exploitable against POST /rest/user/login in repo juice-shop/juice-shop. Produce a minimal reproducer and a one-line fix.",
+    "suggested_tools": [
+      "ffuf",
+      "hydra"
+    ],
+    "signals": {
+      "severity": 0.8,
+      "exposure": 0.9,
+      "exploitability": 1.0,
+      "control_gap": 1.0,
+      "churn": 1.0,
+      "runtime_alerts": 0.0,
+      "total": 0.87
+    },
+    "priority": 0.87
+  },
+  {
+    "task_id": "thr-sqli::GET:/rest/products/search",
+    "threat_id": "thr-sqli",
+    "title": "Possible injection on search/query endpoint",
+    "stride": "T",
+    "severity": "high",
+    "target": {
+      "repo": "juice-shop/juice-shop",
+      "endpoint": "GET /rest/products/search",
+      "defined_in": "server.ts"
+    },
+    "objective": "Verify whether possible injection on search/query endpoint is exploitable against GET /rest/products/search in repo juice-shop/juice-shop. Produce a minimal reproducer and a one-line fix.",
+    "suggested_tools": [
+      "sqlmap"
+    ],
+    "signals": {
+      "severity": 0.8,
+      "exposure": 0.9,
+      "exploitability": 1.0,
+      "control_gap": 1.0,
+      "churn": 1.0,
+      "runtime_alerts": 0.0,
+      "total": 0.87
+    },
+    "priority": 0.87
+  },
+  {
+    "task_id": "thr-admin-authz::GET:/rest/admin/application-version",
+    "threat_id": "thr-admin-authz",
+    "title": "Admin endpoint authorization bypass / IDOR",
+    "stride": "E",
+    "severity": "high",
+    "target": {
+      "repo": "juice-shop/juice-shop",
+      "endpoint": "GET /rest/admin/application-version",
+      "defined_in": "server.ts"
+    },
+    "objective": "Verify whether admin endpoint authorization bypass / idor is exploitable against GET /rest/admin/application-version in repo juice-shop/juice-shop. Produce a minimal reproducer and a one-line fix.",
+    "suggested_tools": [
+      "curl",
+      "burp",
+      "ffuf"
+    ],
+    "signals": {
+      "severity": 0.8,
+      "exposure": 0.9,
+      "exploitability": 1.0,
+      "control_gap": 1.0,
+      "churn": 1.0,
+      "runtime_alerts": 0.0,
+      "total": 0.87
+    },
+    "priority": 0.87
+  },
+  {
+    "task_id": "thr-admin-authz::GET:/rest/admin/application-configuration",
+    "threat_id": "thr-admin-authz",
+    "title": "Admin endpoint authorization bypass / IDOR",
+    "stride": "E",
+    "severity": "high",
+    "target": {
+      "repo": "juice-shop/juice-shop",
+      "endpoint": "GET /rest/admin/application-configuration",
+      "defined_in": "server.ts"
+    },
+    "objective": "Verify whether admin endpoint authorization bypass / idor is exploitable against GET /rest/admin/application-configuration in repo juice-shop/juice-shop. Produce a minimal reproducer and a one-line fix.",
+    "suggested_tools": [
+      "curl",
+      "burp",
+      "ffuf"
+    ],
+    "signals": {
+      "severity": 0.8,
+      "exposure": 0.9,
+      "exploitability": 1.0,
+      "control_gap": 1.0,
+      "churn": 1.0,
+      "runtime_alerts": 0.0,
+      "total": 0.87
+    },
+    "priority": 0.87
+  },
+  {
+    "task_id": "thr-supply-chain::juice-shop/juice-shop",
+    "threat_id": "thr-supply-chain",
+    "title": "Risky / outdated dependencies",
+    "stride": "T",
+    "severity": "medium",
+    "target": {
+      "repo": "juice-shop/juice-shop"
+    },
+    "objective": "Confirm and remediate: Risky / outdated dependencies in juice-shop/juice-shop.",
+    "suggested_tools": [
+      "trivy",
+      "osv-scanner"
+    ],
+    "signals": {
+      "severity": 0.5,
+      "exposure": 0.9,
+      "exploitability": 1.0,
+      "control_gap": 1.0,
+      "churn": 1.0,
+      "runtime_alerts": 0.0,
+      "total": 0.78
+    },
+    "priority": 0.78
+  },
+  {
+    "task_id": "thr-container-root::juice-shop/juice-shop",
+    "threat_id": "thr-container-root",
+    "title": "Container runs as root",
+    "stride": "E",
+    "severity": "medium",
+    "target": {
+      "repo": "juice-shop/juice-shop"
+    },
+    "objective": "Confirm and remediate: Container runs as root in juice-shop/juice-shop.",
+    "suggested_tools": [
+      "trivy",
+      "dockle"
+    ],
+    "signals": {
+      "severity": 0.5,
+      "exposure": 0.9,
+      "exploitability": 1.0,
+      "control_gap": 1.0,
+      "churn": 1.0,
+      "runtime_alerts": 0.0,
+      "total": 0.78
+    },
+    "priority": 0.78
+  }
+]
