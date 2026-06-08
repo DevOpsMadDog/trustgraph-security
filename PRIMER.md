@@ -1,7 +1,9 @@
-# Hackathon Primer — 15 Minutes Before the Demo
+# Hackathon Primer — AI Pentesting Across the SDLC
 
-> **Audience:** Developers who have never written a threat model or run a pentest.
-> **Goal:** By the end of this doc you'll know *what* threat modeling is, *how* pentesters think, *what* AI is already doing in this space, and *why* TrustGraph-Security exists.
+> **Audience:** Developers learning how AI is changing security testing.
+> **Goal:** By the end of this doc you'll know how AI pentesting flows from **design → code → runtime → LLM apps**, what open-source tools exist at each stage, and what enterprises need before they trust any of it.
+>
+> **TrustGraph-Security is one tool in this story** — the whitebox/runtime example we'll run in the hackathon. The patterns transfer to every other tool in the field.
 >
 > **Time:** ~15 min skim. Then we run the demo.
 
@@ -205,26 +207,30 @@ pie title Where pentest value comes from
 
 ---
 
-## Part 5 — The AI Pentest Tool Landscape
+## Part 5 — AI Pentesting Across the SDLC
 
-Three tools devs will recognize the names of. Here's how they differ.
+AI is showing up at every stage of the software lifecycle. Each stage has its own open-source tools, its own strengths, and its own enterprise-trust questions.
 
 ```mermaid
-quadrantChart
-    title AI Pentest Tools — Code Awareness vs Autonomy
-    x-axis "Blind to code" --> "Reads your code"
-    y-axis "Manual / Copilot" --> "Fully autonomous"
-    quadrant-1 "Read code + autonomous"
-    quadrant-2 "Autonomous black-box"
-    quadrant-3 "Manual + blind"
-    quadrant-4 "Read code, manual"
-    "TaaC-AI": [0.25, 0.2]
-    "PentestGPT": [0.15, 0.75]
-    "PentAGI": [0.2, 0.9]
-    "TrustGraph-Security": [0.85, 0.85]
+flowchart LR
+    D[1·Design] --> C[2·Code]
+    C --> R[3·Runtime]
+    R --> L[4·LLM App]
+
+    D -.- D1["Threat-model<br/>before code exists"]
+    C -.- C1["Read repo →<br/>rank attack surface"]
+    R -.- R1["Attack deployed<br/>system autonomously"]
+    L -.- L1["Test the AI itself<br/>jailbreaks · prompt injection"]
+
+    style D fill:#e3f2fd
+    style C fill:#fff3cd
+    style R fill:#ffe5b4
+    style L fill:#f8d7da
 ```
 
-### TaaC-AI — Threat modeling as code
+> **For full per-tool detail, see [LANDSCAPE.md](./LANDSCAPE.md). For the enterprise trust matrix, see [ENTERPRISE.md](./ENTERPRISE.md).**
+
+### Stage 1 — Design (shift-left threat modeling)
 
 ```mermaid
 flowchart LR
@@ -234,65 +240,87 @@ flowchart LR
     style C fill:#d4edda
 ```
 
-- ✅ Cheap, fast, language-agnostic
-- ❌ You hand-write the YAML — it never sees your real code
-- 🎯 Best for: design reviews before code exists
-- 🔗 [yevh/TaaC-AI](https://github.com/yevh/TaaC-AI)
+- **Tool**: [TaaC-AI](https://github.com/yevh/TaaC-AI) — Threat-modeling-as-code via LLMs
+- **Strength**: Catches threats before a line is written. Cheap, fast, language-agnostic.
+- **Trust gap**: Models the YAML, not reality. Stale description = stale threat model.
 
-### PentestGPT — GPT as your pentest copilot
+### Stage 2 — Code (whitebox autonomous)
 
 ```mermaid
 flowchart LR
-    A[You give URL] --> B[PentestGPT]
-    B -->|"'run this'"| C[nmap, sqlmap,<br/>etc.]
-    C -->|output| B
-    B --> D[Next step]
-    D --> B
-    B --> E[Final report]
-    style B fill:#e3f2fd
-    style E fill:#d4edda
+    R[📦 GitHub repo] --> P[Parse code]
+    P --> G[Build graph<br/>endpoints · auth · data flows]
+    G --> S[Score · rank]
+    S --> T[Ranked attack tasks<br/>with code refs]
+    style R fill:#e3f2fd
+    style G fill:#fff3cd
+    style T fill:#d4edda
 ```
 
-- ✅ ~90% solve rate on Hack The Box · mature (3 years) · now fully autonomous
-- ❌ Black-box only — finds the bug, can't tell you the *line of code*
-- ❌ Needs OpenAI API key with billing
-- 🎯 Best for: you have a URL, you want to know if it's broken
-- 🔗 [GreyDGL/PentestGPT](https://github.com/GreyDGL/PentestGPT)
+- **Tools**: [Shannon by Keygraph](https://github.com/KeygraphHQ/shannon), **TrustGraph-Security** (this repo)
+- **Strength**: Findings link back to file + line. Devs know what to fix.
+- **Trust gap**: Source code leaves perimeter unless self-hosted LLM is used.
 
-### PentAGI — Autonomous pentester in a Docker sandbox
+### Stage 3 — Runtime (black-box autonomous)
 
 ```mermaid
 flowchart TB
-    A[You give goal in English] --> O[Orchestrator agent]
-    O --> R[Researcher agent]
-    O --> D[Developer agent]
-    O --> E[Executor agent]
-    E --> K[Kali Linux container<br/>nmap, metasploit, sqlmap, +20 tools]
+    A[You give URL/goal] --> O[Orchestrator agent]
+    O --> R[Recon agent]
+    O --> E[Exploit agent]
+    E --> K[Kali sandbox<br/>nmap · metasploit · sqlmap · 20+ tools]
     K --> Rep[Vulnerability report]
     style O fill:#e3f2fd
     style K fill:#f8d7da
     style Rep fill:#d4edda
 ```
 
-- ✅ Most autonomous · multi-LLM (OpenAI, Anthropic, Gemini, Ollama) · production observability
-- ❌ Heavy stack (multiple containers, Postgres, vector DB) · still black-box
-- 🎯 Best for: replacing a junior pentester for routine scans
-- 🔗 [vxcontrol/pentagi](https://github.com/vxcontrol/pentagi)
+- **Tools**: [PentAGI](https://github.com/vxcontrol/pentagi), [PentestGPT](https://github.com/GreyDGL/PentestGPT), XBOW (commercial)
+- **Strength**: Real exploits, real PoCs, mature toolchains.
+- **Trust gap**: No code awareness — finds bugs but not the root cause line.
 
-### The comparison table
+### Stage 4 — LLM-app testing (the new attack surface)
 
-| Tool | Reads your code? | Black-box attacks? | Threat model? | Self-driving? | Devs can run it? |
-|------|:---:|:---:|:---:|:---:|:---:|
-| TaaC-AI | ❌ needs YAML | ❌ | ✅ STRIDE | ❌ | ✅ |
-| PentestGPT | ❌ | ✅ | ❌ | ✅ | ⚠️ API key |
-| PentAGI | ❌ | ✅ | ❌ | ✅ | ⚠️ heavy |
-| **TrustGraph-Security** | ✅ **from repo** | ✅ via CAI | ✅ STRIDE+MITRE | ✅ | ✅ **one command** |
+```mermaid
+flowchart LR
+    A[Your LLM app] --> B[Adversarial prompts]
+    B --> C[Jailbreak attempts]
+    B --> D[Prompt injection]
+    B --> E[Data extraction]
+    C & D & E --> R[Behavioral report<br/>OWASP LLM Top 10]
+    style A fill:#e3f2fd
+    style R fill:#d4edda
+```
+
+- **Tools**: [Promptfoo](https://www.promptfoo.dev/), [PyRIT (Microsoft)](https://github.com/Azure/PyRIT), [Garak (NVIDIA)](https://github.com/NVIDIA/garak)
+- **Strength**: Tests behavior an LLM-based app exhibits, not its hosting infra.
+- **Trust gap**: Models change; tests need continuous re-runs to stay valid.
+
+### The lifecycle in one diagram
+
+```mermaid
+flowchart TB
+    subgraph SDLC["AI Pentesting Across the SDLC"]
+        direction LR
+        D[1·Design<br/><br/>TaaC-AI] --> C[2·Code<br/><br/>Shannon<br/>TrustGraph]
+        C --> R[3·Runtime<br/><br/>PentAGI<br/>PentestGPT]
+        R --> L[4·LLM-app<br/><br/>Promptfoo<br/>PyRIT · Garak]
+    end
+    SDLC --> ENT[🏢 Enterprise Trust Layer<br/>local LLMs · audit · scope · evidence · SLAs]
+    style D fill:#e3f2fd
+    style C fill:#fff3cd
+    style R fill:#ffe5b4
+    style L fill:#f8d7da
+    style ENT fill:#d4edda,stroke:#155724
+```
+
+Most of these are open source. **No enterprise will plug them in raw** — that's the gap [ENTERPRISE.md](./ENTERPRISE.md) addresses.
 
 ---
 
-## Part 6 — So What Are We Building?
+## Part 6 — TrustGraph-Security as the Hands-On Example
 
-**TrustGraph-Security** is the missing column on that table.
+We picked the **whitebox/code stage** for the hackathon because it's where most devs spend their time — and where a graph + ranked tasks teaches the most transferable patterns.
 
 > **"Point me at a GitHub repo. I'll read the code, build a security knowledge graph, rank the realistic attack paths, and run a live pentest against a deployed copy."**
 
@@ -318,32 +346,26 @@ flowchart LR
     style C1 fill:#fff,stroke-dasharray:3
 ```
 
-### Why this is different — whitebox + blackbox
+### Whitebox + blackbox in the same loop
 
 ```mermaid
 flowchart TB
-    subgraph Others["🤖 PentestGPT / PentAGI"]
-        O1[Probe from outside]
-        O2[Guess what to attack]
-        O3[Find bug · don't know<br/>where in code]
-    end
-
-    subgraph TaaC["📝 TaaC-AI"]
-        T1[Read hand-written YAML]
-        T2[Threat-model the<br/>description not reality]
-    end
-
-    subgraph Us["🎯 TrustGraph-Security"]
+    subgraph WB["📖 Whitebox half"]
         U1[Read REAL code → graph]
         U2[Rank attacks by<br/>actual exposure]
+    end
+
+    subgraph BB["💥 Blackbox half"]
         U3[Execute against<br/>deployed copy]
         U4[Map findings back<br/>to code line]
     end
 
-    style Others fill:#f8d7da,stroke:#721c24
-    style TaaC fill:#fff3cd,stroke:#856404
-    style Us fill:#d4edda,stroke:#155724
+    WB --> BB
+    style WB fill:#fff3cd,stroke:#856404
+    style BB fill:#d4edda,stroke:#155724
 ```
+
+Most tools do one half. The hackathon lets you watch both halves run end-to-end on a repo you choose.
 
 ### The 6-signal scorer
 
@@ -392,6 +414,8 @@ Welcome. Now read the rest of the room.
 
 - 🗺️ [Architecture diagram](./ARCHITECTURE.md)
 - 📖 [Security concepts glossary](./CONCEPTS.md)
+- 🌍 [AI pentest landscape — tools per SDLC stage](./LANDSCAPE.md)
+- 🏢 [Enterprise trust matrix](./ENTERPRISE.md)
 - 🚀 [5 / 15 / 60-min paths](./HACKATHON.md)
 - 🎬 [Presenter walkthrough](./WALKTHROUGH.md)
 - 🚢 [Full deployment](./DEPLOY.md)

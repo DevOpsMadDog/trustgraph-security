@@ -1,8 +1,13 @@
 # TrustGraph Security
 
-Production AI-native security platform: **threat model → context graph → enrichment → AI pentest → evidence**.
+A hands-on example of **AI pentesting across the SDLC** — from design-stage threat modeling to whitebox code analysis to autonomous runtime attacks, with the enterprise trust layer baked in.
 
-> 🎓 **New to security?** Start with the **[15-minute Hackathon Primer](./PRIMER.md)** — 18 diagrams explaining threat modeling, STRIDE, MITRE, and how this fits next to PentestGPT / PentAGI / TaaC-AI. Zero security background needed.
+> 🎓 **Start here — in order:**
+> 1. **[PRIMER.md](./PRIMER.md)** — 15-min intro to threat modeling, STRIDE, MITRE, and how AI fits across the SDLC
+> 2. **[LANDSCAPE.md](./LANDSCAPE.md)** — Open-source AI security tools at each lifecycle stage (Design → Code → Runtime → LLM-app)
+> 3. **[ENTERPRISE.md](./ENTERPRISE.md)** — The trust layer enterprises need before adopting any of this
+>
+> TrustGraph-Security itself is the **whitebox/code-stage example** — the patterns you learn here transfer to every other tool in the field.
 
 The graph store is **[trustgraph-ai](https://github.com/trustgraph-ai/trustgraph)** — every security entity (services, threats, controls, findings, evidence, pentest tasks) is stored as RDF triples in a TrustGraph knowledge core and queried through TrustGraph's REST/WS gateway. This buys us Cassandra+Qdrant+Pulsar+Garage out of the box and lets RAG/agent flows reason directly over the security graph.
 
