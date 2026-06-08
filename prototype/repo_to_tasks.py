@@ -107,16 +107,52 @@ MAX_SOURCE_FILES = 25
 MAX_FILE_BYTES = 80_000
 
 
+class GitHubRateLimitError(RuntimeError):
+    """Raised when the GitHub API rate-limits us and no token is configured."""
+
+
+_RL_SIGNALS = ("rate limit", "api rate limit exceeded", "abuse detection",
+               "secondary rate limit", "please wait a few minutes")
+
+
+def _check_gh_payload(payload: Any, path: str) -> Any:
+    """Detect rate-limit / error envelopes and fail loudly with a helpful hint."""
+    if isinstance(payload, dict):
+        msg = str(payload.get("message", "")).lower()
+        if any(s in msg for s in _RL_SIGNALS):
+            raise GitHubRateLimitError(
+                f"GitHub API rate-limited on /{path}: {payload.get('message')}\n"
+                "  Fix: export GITHUB_TOKEN=<a personal-access-token with public_repo scope>\n"
+                "        (or install `gh` and run `gh auth login` once).\n"
+                "  Token boosts the limit from 60/hr to 5000/hr."
+            )
+        if msg in {"not found", "bad credentials"}:
+            raise RuntimeError(f"GitHub API error on /{path}: {payload.get('message')}")
+    return payload
+
+
 def _get(path: str, client: httpx.Client | None) -> Any:
     """Try `gh` first (auth, no rate-limit pain), then fall back to httpx."""
     if _gh_available():
         try:
-            return _gh_api(path.lstrip("/"))
+            return _check_gh_payload(_gh_api(path.lstrip("/")), path)
+        except GitHubRateLimitError:
+            raise
         except Exception:
             pass
     assert client is not None
     r = client.get(f"{GH_API}/{path.lstrip('/')}")
-    return r.json()
+    # Surface HTTP-level errors cleanly
+    if r.status_code in (403, 429) and any(s in r.text.lower() for s in _RL_SIGNALS):
+        raise GitHubRateLimitError(
+            f"GitHub API rate-limited (HTTP {r.status_code}) on /{path}.\n"
+            "  Fix: export GITHUB_TOKEN=<a personal-access-token with public_repo scope>\n"
+            "        (or install `gh` and run `gh auth login` once).\n"
+            "  Token boosts the limit from 60/hr to 5000/hr."
+        )
+    if r.status_code == 404:
+        raise RuntimeError(f"Repo or path not found: /{path}")
+    return _check_gh_payload(r.json(), path)
 
 
 def fetch_repo_metadata(owner: str, repo: str) -> dict[str, Any]:
@@ -552,10 +588,40 @@ def run(repo_url: str, out_dir: Path | None = None) -> Path:
     return out_dir
 
 
+USAGE = """\
+Usage: python repo_to_tasks.py <owner/repo or full GitHub URL> [out_dir]
+
+Reads a public GitHub repo, builds a security knowledge graph, and emits a
+ranked list of pentest tasks (graph.json, tasks.json, signals.json).
+
+Examples:
+    python repo_to_tasks.py juice-shop/juice-shop
+    python repo_to_tasks.py https://github.com/fastapi/full-stack-fastapi-template /tmp/out
+
+Environment:
+    GITHUB_TOKEN   Personal access token (public_repo scope). Strongly recommended
+                   — without it you get 60 req/hr and the script will fail loudly.
+                   If `gh` CLI is installed and authenticated, that is used instead.
+
+Flags:
+    -h, --help     Show this message and exit.
+"""
+
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python repo_to_tasks.py <owner/repo or full GitHub URL> [out_dir]")
+    args = sys.argv[1:]
+    if not args or args[0] in ("-h", "--help", "help"):
+        print(USAGE)
+        sys.exit(0 if args else 2)
+    out = Path(args[1]).resolve() if len(args) > 1 else None
+    try:
+        final_dir = run(args[0], out)
+    except GitHubRateLimitError as e:
+        print(f"\n❌ {e}", file=sys.stderr)
+        sys.exit(3)
+    except ValueError as e:
+        print(f"\n❌ Invalid argument: {e}", file=sys.stderr)
         sys.exit(2)
-    out = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else None
-    final_dir = run(sys.argv[1], out)
+    except RuntimeError as e:
+        print(f"\n❌ {e}", file=sys.stderr)
+        sys.exit(4)
     print(f"\nOutputs in: {final_dir}")

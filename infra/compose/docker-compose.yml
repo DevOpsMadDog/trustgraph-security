@@ -59,7 +59,9 @@ services:
     networks: [tgs-net]
 
   trustgraph:
-    image: trustgraph/trustgraph-flow:latest
+    # NOTE: trustgraph publishes versioned tags only — no `latest`.
+    # Pin to a known-good version. Override with TG_FLOW_VERSION in .env if needed.
+    image: trustgraph/trustgraph-flow:${TG_FLOW_VERSION:-2.5.13}
     depends_on:
       pulsar: {condition: service_healthy}
       cassandra: {condition: service_healthy}

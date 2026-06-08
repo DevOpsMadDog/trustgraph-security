@@ -8,14 +8,16 @@ verbatim or paraphrase. Times in parentheses are cumulative.
 ## Setup (do this once, before the demo)
 
 ```bash
-git clone <your-fork-of>/trustgraph-security && cd trustgraph-security
+git clone https://github.com/DevOpsMadDog/trustgraph-security.git
+cd trustgraph-security
+cp .env.example .env       # edit OPENAI_API_KEY or ANTHROPIC_API_KEY for CAI
 make hackathon
 ```
 
 That single command:
 1. Checks Docker is installed
 2. Builds 4 local images (api, worker, ui, demo-target)
-3. Starts 11 containers (10 for the platform + 1 vulnerable demo app)
+3. Starts 10 containers (cassandra, pulsar, qdrant, redis, trustgraph, tg-api, tg-worker, tg-ui, tg-demo-target, zap)
 4. Waits for the graph DB to be ready
 5. Loads the demo threat model
 6. Runs the first AI pentest

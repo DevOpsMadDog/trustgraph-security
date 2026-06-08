@@ -72,17 +72,26 @@ Every one of these maps to a real, documented Juice Shop challenge — so the de
 
 ## Hand-off into the full TrustGraph stack
 
-`tasks.json` is in the exact shape `apps/worker/.../pentest.py` consumes. Feed it in like this:
+`tasks.json` is in the exact shape the planner emits. Feed it into the running
+stack by ingesting it as a threat-model feed, then dispatch the top task:
 
 ```bash
-# Inside the main stack
-curl -sX POST http://localhost:8000/api/v1/pentest/enqueue \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  --data @../../prototype/tasks.json
+# 1. Authenticate (default seed credentials)
+TOKEN=$(curl -sf -X POST http://localhost:8000/api/v1/auth/login \
+  -d "username=demo@trustgraph.local&password=demo" | jq -r .access_token)
+
+# 2. Re-plan (forces the planner to ingest the latest signals)
+curl -sf -X POST http://localhost:8000/api/v1/plan \
+  -H "Authorization: Bearer $TOKEN" | jq '.tasks[:5]'
+
+# 3. Execute the top task (CAI runs it autonomously against Juice Shop)
+TOP=$(curl -sf -X POST http://localhost:8000/api/v1/plan \
+  -H "Authorization: Bearer $TOKEN" | jq -r '.tasks[0].id')
+curl -sf -X POST "http://localhost:8000/api/v1/plan/tasks/$TOP/execute" \
+  -H "Authorization: Bearer $TOKEN" | jq
 ```
 
-CAI then autonomously attacks each target on Juice Shop (`http://localhost:3000`) and writes evidence back into trustgraph-ai.
+CAI then autonomously attacks the target on Juice Shop (`http://localhost:3000`) and writes evidence back into trustgraph-ai.
 
 ## Why LocalStack and not real AWS
 

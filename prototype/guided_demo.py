@@ -472,6 +472,33 @@ def _write_temp(obj: Any, name: str) -> Path:
     return p
 
 
+def preflight() -> None:
+    """Warn about GitHub auth before the user wastes a demo run."""
+    has_token = bool(os.environ.get("GITHUB_TOKEN"))
+    has_gh = shutil.which("gh") is not None
+    if has_token:
+        ok("GITHUB_TOKEN detected — you have 5000 req/hr.")
+        return
+    if has_gh:
+        # Check `gh auth status` succeeds
+        try:
+            r = subprocess.run(["gh", "auth", "status"], capture_output=True, text=True, timeout=5)
+            if r.returncode == 0:
+                ok("`gh` CLI is authenticated — you have 5000 req/hr.")
+                return
+        except Exception:
+            pass
+    warn("No GitHub auth detected. Unauthenticated requests are capped at "
+         "60/hr and this demo will fail on busy networks.")
+    print(c("   Fix in one of two ways before continuing:", "dim"))
+    print(c("     1)  export GITHUB_TOKEN=<a public_repo PAT>", "dim"))
+    print(c("     2)  gh auth login   (one-time, then re-run)", "dim"))
+    cont = ask("Continue anyway? (y/N)", default="n")
+    if cont.lower() not in {"y", "yes"}:
+        print(c("Exiting. Set up auth and come back.", "yellow"))
+        sys.exit(0)
+
+
 def main() -> None:
     banner("TrustGraph Security — Guided demo",
            "GitHub repo  →  signals  →  graph  →  ranked pentest tasks")
@@ -482,6 +509,7 @@ def main() -> None:
         "  • a number        pick from the menu\n"
         "No security background needed — each stage starts with a short "
         "explanation of the concept.", "dim"))
+    preflight()
     while True:
         choice = main_menu()
         if choice == "quit":
