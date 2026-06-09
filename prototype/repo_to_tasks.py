@@ -63,7 +63,10 @@ GH_API = "https://api.github.com"
 def _headers() -> dict[str, str]:
     h = {"Accept": "application/vnd.github+json",
          "User-Agent": "trustgraph-security-prototype"}
-    tok = os.environ.get("GITHUB_TOKEN")
+    # Accept any common GitHub token env var
+    tok = (os.environ.get("GITHUB_TOKEN")
+           or os.environ.get("GH_TOKEN")
+           or os.environ.get("GH_ENTERPRISE_TOKEN"))
     if tok:
         h["Authorization"] = f"Bearer {tok}"
     return h

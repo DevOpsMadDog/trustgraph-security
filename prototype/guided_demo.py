@@ -20,6 +20,8 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
+import subprocess
 import sys
 import textwrap
 from pathlib import Path
@@ -474,10 +476,12 @@ def _write_temp(obj: Any, name: str) -> Path:
 
 def preflight() -> None:
     """Warn about GitHub auth before the user wastes a demo run."""
-    has_token = bool(os.environ.get("GITHUB_TOKEN"))
+    # Accept any of the common GitHub token env vars
+    token_envs = ("GITHUB_TOKEN", "GH_TOKEN", "GH_ENTERPRISE_TOKEN")
+    detected = next((v for v in token_envs if os.environ.get(v)), None)
     has_gh = shutil.which("gh") is not None
-    if has_token:
-        ok("GITHUB_TOKEN detected — you have 5000 req/hr.")
+    if detected:
+        ok(f"{detected} detected — you have 5000 req/hr.")
         return
     if has_gh:
         # Check `gh auth status` succeeds

@@ -43,7 +43,7 @@ test:
 hackathon: doctor sandbox-up sandbox-seed sandbox-pentest
 	@echo
 	@echo "✅  Sandbox is live."
-	@echo "   UI:        http://localhost:8080  (demo / demo)"
+	@echo "   UI:        http://localhost:8080  (demo@trustgraph.local / demo)"
 	@echo "   API docs:  http://localhost:8000/docs"
 	@echo "   trustgraph http://localhost:8088"
 	@command -v open >/dev/null && open http://localhost:8080 || \
@@ -77,6 +77,9 @@ sandbox-pentest:
 	@echo "🤖  Dispatching first AI pentest (this can take 1-3 min)…"
 	@JWT=$$(curl -sf -X POST http://localhost:8000/api/v1/auth/login \
 	  -d "username=demo@trustgraph.local&password=demo" | jq -r .access_token); \
+	if [ -z "$$JWT" ] || [ "$$JWT" = "null" ]; then \
+	  echo "❌ login failed. Sandbox compose seeds demo@trustgraph.local / demo — check tg-api logs."; exit 1; \
+	fi; \
 	TOP=$$(curl -sf -X POST http://localhost:8000/api/v1/plan \
 	  -H "Authorization: Bearer $$JWT" | jq -r '.tasks[0].id'); \
 	echo "   top task: $$TOP"; \
